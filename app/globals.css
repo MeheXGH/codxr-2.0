@@ -74,3 +74,1203 @@ a {
     #e8ff00 100%
   );
 }
+/* ============================================================
+   CODXR HERO
+============================================================ */
+
+.hero-section {
+  position: relative;
+  overflow: hidden;
+
+  /*
+   * Keep the hero compact enough for a normal browser viewport.
+   * The navbar already takes vertical space, so we avoid
+   * excessive top padding here.
+   */
+  padding-top: clamp(1.5rem, 2.5vw, 2.5rem);
+  padding-bottom: clamp(2.5rem, 4vw, 4rem);
+
+  background: var(--background);
+}
+
+.hero-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 0.92fr)
+    minmax(0, 1.08fr);
+
+  align-items: center;
+
+  gap: clamp(2rem, 4vw, 5rem);
+
+  /*
+   * The navbar is approximately 88px.
+   *
+   * svh handles the actual small viewport height better
+   * when browser UI such as tabs/address bars is visible.
+   */
+  min-height: calc(100svh - 88px - 5rem);
+}
+
+/* ============================================================
+   LEFT CONTENT
+============================================================ */
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+}
+
+.hero-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.55rem;
+
+  padding:
+    0.55rem
+    0.9rem;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 999px;
+
+  background: var(--background);
+
+  color: var(--foreground);
+
+  font-size: 0.8rem;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+.hero-badge-icon {
+  display: grid;
+
+  width: 1.25rem;
+  height: 1.25rem;
+
+  place-items: center;
+
+  color: #94c900;
+
+  font-size: 0.95rem;
+}
+
+.hero-title {
+  margin-top: 2.5rem;
+
+  max-width: 720px;
+
+  color: var(--foreground);
+
+  font-family:
+    var(--font-inter),
+    Inter,
+    sans-serif;
+
+  font-size:
+    clamp(
+      3.3rem,
+      5vw,
+      5.5rem
+    );
+
+  font-weight: 500;
+
+  line-height: 0.96;
+
+  letter-spacing: -0.055em;
+}
+
+.hero-title-accent {
+  color: #72ad00;
+}
+
+.dark .hero-title-accent {
+  color: var(--accent);
+}
+
+.hero-description {
+  max-width: 600px;
+
+  margin-top: 2rem;
+
+  color: var(--muted);
+
+  font-size:
+    clamp(
+      1rem,
+      1.3vw,
+      1.15rem
+    );
+
+  line-height: 1.8;
+}
+
+.hero-actions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 0.85rem;
+
+  margin-top: 2.2rem;
+}
+
+.hero-primary-button,
+.hero-secondary-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 0.55rem;
+
+  min-height: 3.4rem;
+
+  padding:
+    0.8rem
+    1.5rem;
+
+  border-radius: 999px;
+
+  font-size: 0.9rem;
+
+  font-weight: 600;
+
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease,
+    border-color 250ms ease;
+}
+
+.hero-primary-button {
+  color: #050505;
+}
+
+.hero-primary-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 35px
+    rgba(
+      184,
+      255,
+      0,
+      0.22
+    );
+}
+
+.hero-secondary-button {
+  border:
+    1px solid
+    var(--border);
+
+  color: var(--foreground);
+}
+
+.hero-secondary-button:hover {
+  transform: translateY(-2px);
+
+  border-color: var(--accent);
+}
+
+/* ============================================================
+   RIGHT VISUAL
+============================================================ */
+
+.hero-visual {
+  position: relative;
+
+  z-index: 2;
+
+  width: 100%;
+}
+
+.hero-visual-area {
+  position: relative;
+
+  width: 100%;
+
+  /*
+   * Prevent the visual from forcing the entire hero
+   * unnecessarily tall on normal desktop screens.
+   */
+  min-height:
+    min(
+      580px,
+      calc(100svh - 150px)
+    );
+}
+
+/* ============================================================
+   HERO IMAGE
+============================================================ */
+
+.hero-image-card {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  z-index: 2;
+
+  width:
+    clamp(
+      360px,
+      36vw,
+      540px
+    );
+
+  aspect-ratio: 1;
+
+  transform:
+    translate(
+      -50%,
+      -50%
+    );
+
+  transform-style: preserve-3d;
+
+  will-change: transform;
+
+  transition:
+    filter 350ms ease;
+}
+
+.hero-image {
+  object-fit: contain;
+
+  pointer-events: none;
+
+  user-select: none;
+}
+
+.hero-image-light {
+  display: block;
+}
+
+.hero-image-dark {
+  display: none;
+}
+
+.dark .hero-image-light {
+  display: none;
+}
+
+.dark .hero-image-dark {
+  display: block;
+}
+
+/* ============================================================
+   FLOATING SERVICE CARDS
+============================================================ */
+
+.hero-card {
+  position: absolute;
+
+  z-index: 5;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.75rem;
+
+  /*
+   * All cards intentionally use the same dimensions.
+   */
+  width: 225px;
+
+  min-height: 104px;
+
+  padding:
+    0.8rem
+    0.95rem;
+
+  border:
+    1px solid
+    rgba(
+      225,
+      225,
+      225,
+      0.9
+    );
+
+  border-radius: 1rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.92
+    );
+
+  box-shadow:
+    0 18px 40px
+    rgba(
+      0,
+      0,
+      0,
+      0.07
+    );
+
+  backdrop-filter: blur(18px);
+
+  -webkit-backdrop-filter: blur(18px);
+
+  will-change: transform;
+}
+
+.dark .hero-card {
+  border-color:
+    rgba(
+      255,
+      255,
+      255,
+      0.09
+    );
+
+  background:
+    rgba(
+      28,
+      30,
+      27,
+      0.94
+    );
+
+  box-shadow:
+    0 18px 40px
+    rgba(
+      0,
+      0,
+      0,
+      0.28
+    );
+}
+
+/* ============================================================
+   CARD ICONS
+============================================================ */
+
+.hero-card-icon {
+  display: grid;
+
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+
+  place-items: center;
+
+  border-radius: 0.75rem;
+
+  background:
+    rgba(
+      184,
+      255,
+      0,
+      0.15
+    );
+
+  color: #72ad00;
+}
+
+.dark .hero-card-icon {
+  background:
+    rgba(
+      184,
+      255,
+      0,
+      0.1
+    );
+
+  color: var(--accent);
+}
+
+/*
+ * Explicitly keep every card icon consistent.
+ *
+ * This also overrides the old alternating-icon styling
+ * if it still exists elsewhere in your stylesheet.
+ */
+.hero-card:nth-of-type(2n) .hero-card-icon {
+  background:
+    rgba(
+      184,
+      255,
+      0,
+      0.15
+    );
+
+  color: #72ad00;
+}
+
+.dark .hero-card:nth-of-type(2n) .hero-card-icon {
+  background:
+    rgba(
+      184,
+      255,
+      0,
+      0.1
+    );
+
+  color: var(--accent);
+}
+
+/* ============================================================
+   CARD CONTENT
+============================================================ */
+
+.hero-card-content {
+  min-width: 0;
+
+  padding-right: 0.5rem;
+}
+
+.hero-card-title {
+  color: var(--foreground);
+
+  font-size: 0.76rem;
+
+  font-weight: 700;
+
+  line-height: 1.25;
+}
+
+.hero-card-description {
+  margin-top: 0.3rem;
+
+  color: var(--muted);
+
+  font-size: 0.65rem;
+
+  line-height: 1.45;
+}
+
+.hero-card-dot {
+  position: absolute;
+
+  top: 0.85rem;
+  right: 0.8rem;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: var(--accent);
+
+  box-shadow:
+    0 0 9px
+    rgba(
+      184,
+      255,
+      0,
+      0.3
+    );
+}
+
+/* ============================================================
+   DESKTOP CARD POSITIONS
+============================================================ */
+
+/*
+ * Top row
+ */
+
+.hero-card-website {
+  top: 2%;
+  left: 7%;
+
+  transform: rotate(-2deg);
+}
+
+.hero-card-social {
+  top: 0;
+  right: 4%;
+
+  transform: rotate(2deg);
+}
+
+/*
+ * Middle row
+ */
+
+.hero-card-web-app {
+  top: 35%;
+  left: -1%;
+
+  transform: rotate(-1deg);
+}
+
+.hero-card-meta-ads {
+  top: 34%;
+  right: -1%;
+
+  transform: rotate(1.5deg);
+}
+
+/*
+ * Lower row
+ */
+
+.hero-card-branding {
+  bottom: 14%;
+  left: 1%;
+
+  transform: rotate(-2deg);
+}
+
+.hero-card-seo {
+  right: 1%;
+  bottom: 14%;
+
+  transform: rotate(2deg);
+}
+
+/*
+ * E-commerce card is centered underneath
+ * the main hero visual.
+ */
+
+.hero-card-ecommerce {
+  right: 50%;
+  bottom: 0;
+  left: auto;
+
+  transform:
+    translateX(50%)
+    rotate(1deg);
+}
+/* ============================================================
+   TABLET — 768px to 1100px
+============================================================ */
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .hero-section {
+    padding-top: 2rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .hero-grid {
+    grid-template-columns:
+      minmax(0, 0.88fr)
+      minmax(0, 1.12fr);
+
+    align-items: center;
+
+    gap: 1.5rem;
+
+    min-height: auto;
+  }
+
+  /* ==========================================================
+     TABLET CONTENT
+  ========================================================== */
+
+  .hero-title {
+    margin-top: 2rem;
+
+    font-size:
+      clamp(
+        3rem,
+        5.5vw,
+        4.4rem
+      );
+
+    line-height: 0.97;
+  }
+
+  .hero-description {
+    max-width: 500px;
+
+    margin-top: 1.5rem;
+
+    font-size: 1rem;
+
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    margin-top: 1.7rem;
+  }
+
+  /* ==========================================================
+     TABLET VISUAL
+  ========================================================== */
+
+  .hero-visual-area {
+    width: 100%;
+
+    min-height: 500px;
+  }
+
+  .hero-image-card {
+    width:
+      clamp(
+        310px,
+        40vw,
+        440px
+      );
+  }
+
+  /* ==========================================================
+     TABLET FLOATING CARDS
+  ========================================================== */
+
+  .hero-card {
+    width: 165px;
+
+    min-height: 82px;
+
+    padding:
+      0.65rem
+      0.7rem;
+
+    gap: 0.6rem;
+
+    border-radius: 0.9rem;
+  }
+
+  .hero-card-icon {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 0.65rem;
+  }
+
+  .hero-card-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .hero-card-title {
+    font-size: 0.65rem;
+
+    line-height: 1.2;
+  }
+
+  .hero-card-description {
+    margin-top: 0.2rem;
+
+    font-size: 0.54rem;
+
+    line-height: 1.35;
+  }
+
+  .hero-card-dot {
+    top: 0.65rem;
+    right: 0.6rem;
+
+    width: 5px;
+    height: 5px;
+  }
+
+  /* ==========================================================
+     TABLET CARD POSITIONS
+  ========================================================== */
+
+  .hero-card-website {
+    top: 2%;
+    left: 3%;
+
+    transform: rotate(-2deg);
+  }
+
+  .hero-card-social {
+    top: 1%;
+    right: 2%;
+
+    transform: rotate(2deg);
+  }
+
+  .hero-card-web-app {
+    top: 34%;
+    left: -2%;
+
+    transform: rotate(-1.5deg);
+  }
+
+  .hero-card-meta-ads {
+    top: 33%;
+    right: -2%;
+
+    transform: rotate(1.5deg);
+  }
+
+  .hero-card-branding {
+    bottom: 13%;
+    left: 2%;
+
+    transform: rotate(-2deg);
+  }
+
+  .hero-card-seo {
+    right: 2%;
+    bottom: 13%;
+
+    transform: rotate(2deg);
+  }
+
+  .hero-card-ecommerce {
+    right: 50%;
+    bottom: 0;
+    left: auto;
+
+    transform:
+      translateX(50%)
+      rotate(1deg);
+  }
+}
+
+
+/* ============================================================
+   NARROW TABLET / SMALL LAPTOP
+   768px–900px
+============================================================ */
+
+@media (min-width: 768px) and (max-width: 900px) {
+  .hero-grid {
+    gap: 1rem;
+  }
+
+  .hero-title {
+    font-size:
+      clamp(
+        2.7rem,
+        5.7vw,
+        3.6rem
+      );
+  }
+
+  .hero-description {
+    font-size: 0.92rem;
+  }
+
+  .hero-visual-area {
+    min-height: 460px;
+  }
+
+  .hero-image-card {
+    width: 330px;
+  }
+
+  .hero-card {
+    width: 145px;
+
+    min-height: 74px;
+  }
+
+  .hero-card-icon {
+    width: 31px;
+    height: 31px;
+  }
+
+  .hero-card-title {
+    font-size: 0.59rem;
+  }
+
+  .hero-card-description {
+    font-size: 0.5rem;
+  }
+
+  .hero-card-website {
+    left: 1%;
+  }
+
+  .hero-card-social {
+    right: 0;
+  }
+
+  .hero-card-web-app {
+    left: -4%;
+  }
+
+  .hero-card-meta-ads {
+    right: -4%;
+  }
+
+  .hero-card-branding {
+    left: 0;
+  }
+
+  .hero-card-seo {
+    right: 0;
+  }
+}
+
+
+/* ============================================================
+   MOBILE — Below 767px
+============================================================ */
+
+@media (max-width: 767px) {
+  .hero-section {
+    padding-top: 1.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .hero-grid {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 2.5rem;
+
+    min-height: auto;
+  }
+
+  /* ==========================================================
+     MOBILE CONTENT
+  ========================================================== */
+
+  .hero-content {
+    width: 100%;
+  }
+
+  .hero-badge {
+    font-size: 0.7rem;
+  }
+
+  .hero-title {
+    margin-top: 1.75rem;
+
+    font-size:
+      clamp(
+        2.8rem,
+        11.5vw,
+        4rem
+      );
+
+    line-height: 0.98;
+  }
+
+  .hero-description {
+    margin-top: 1.4rem;
+
+    max-width: 100%;
+
+    font-size: 0.98rem;
+
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    margin-top: 1.7rem;
+  }
+
+  .hero-primary-button,
+  .hero-secondary-button {
+    min-height: 3.2rem;
+
+    padding-inline: 1.25rem;
+  }
+
+  /* ==========================================================
+     MOBILE VISUAL
+  ========================================================== */
+
+  .hero-visual {
+    width: 100%;
+  }
+
+  .hero-visual-area {
+    width: 100%;
+
+    min-height: 430px;
+  }
+
+  .hero-image-card {
+    width:
+      min(
+        74vw,
+        300px
+      );
+
+    top: 50%;
+    left: 50%;
+  }
+
+  /* ==========================================================
+     MOBILE ICON CARDS
+  ========================================================== */
+
+  .hero-card {
+    width: 58px;
+    height: 58px;
+
+    min-height: 58px;
+
+    padding: 0;
+
+    display: grid;
+
+    place-items: center;
+
+    gap: 0;
+
+    border-radius: 1rem;
+  }
+
+  .hero-card-icon {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 0.8rem;
+  }
+
+  .hero-card-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .hero-card-content {
+    display: none;
+  }
+
+  .hero-card-dot {
+    top: 7px;
+    right: 7px;
+
+    width: 6px;
+    height: 6px;
+  }
+
+  /* ==========================================================
+     MOBILE POSITIONS
+  ========================================================== */
+
+  .hero-card-website {
+    top: 3%;
+    left: 7%;
+
+    transform: rotate(-3deg);
+  }
+
+  .hero-card-social {
+    top: 3%;
+    right: 7%;
+
+    transform: rotate(3deg);
+  }
+
+  .hero-card-web-app {
+    top: 38%;
+    left: 2%;
+
+    transform: rotate(-2deg);
+  }
+
+  .hero-card-meta-ads {
+    top: 38%;
+    right: 2%;
+
+    transform: rotate(2deg);
+  }
+
+  .hero-card-branding {
+    bottom: 14%;
+    left: 7%;
+
+    transform: rotate(-3deg);
+  }
+
+  .hero-card-seo {
+    right: 7%;
+    bottom: 14%;
+
+    transform: rotate(3deg);
+  }
+
+  .hero-card-ecommerce {
+    right: 50%;
+    bottom: 0;
+    left: auto;
+
+    transform:
+      translateX(50%)
+      rotate(1deg);
+  }
+}
+
+
+/* ============================================================
+   SMALL MOBILE — Below 480px
+============================================================ */
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding-top: 1.25rem;
+    padding-bottom: 3rem;
+  }
+
+  .hero-title {
+    font-size:
+      clamp(
+        2.55rem,
+        12.8vw,
+        3.4rem
+      );
+  }
+
+  .hero-description {
+    font-size: 0.94rem;
+
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .hero-primary-button,
+  .hero-secondary-button {
+    width: 100%;
+  }
+
+  /* ==========================================================
+     SMALL PHONE VISUAL
+  ========================================================== */
+
+  .hero-visual-area {
+    min-height: 400px;
+  }
+
+  .hero-image-card {
+    width: 235px;
+  }
+
+  .hero-card {
+    width: 54px;
+    height: 54px;
+
+    min-height: 54px;
+  }
+
+  .hero-card-icon {
+    width: 39px;
+    height: 39px;
+  }
+
+  .hero-card-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .hero-card-dot {
+    top: 6px;
+    right: 6px;
+
+    width: 5px;
+    height: 5px;
+  }
+
+  .hero-card-website,
+  .hero-card-social {
+    top: 2%;
+  }
+
+  .hero-card-web-app,
+  .hero-card-meta-ads {
+    top: 36%;
+  }
+
+  .hero-card-branding,
+  .hero-card-seo {
+    bottom: 15%;
+  }
+
+  .hero-card-ecommerce {
+    bottom: 0;
+  }
+}
+
+
+/* ============================================================
+   VERY SMALL PHONES — Below 380px
+============================================================ */
+
+@media (max-width: 380px) {
+  .hero-title {
+    font-size: 2.45rem;
+  }
+
+  .hero-visual-area {
+    min-height: 370px;
+  }
+
+  .hero-image-card {
+    width: 215px;
+  }
+
+  .hero-card {
+    width: 50px;
+    height: 50px;
+
+    min-height: 50px;
+  }
+
+  .hero-card-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .hero-card-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .hero-card-website {
+    left: 4%;
+  }
+
+  .hero-card-social {
+    right: 4%;
+  }
+
+  .hero-card-web-app {
+    left: 0;
+  }
+
+  .hero-card-meta-ads {
+    right: 0;
+  }
+
+  .hero-card-branding {
+    left: 4%;
+  }
+
+  .hero-card-seo {
+    right: 4%;
+  }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-card,
+  .hero-visual,
+  .hero-reveal,
+  .hero-image-card {
+    animation: none !important;
+
+    transition: none !important;
+  }
+}

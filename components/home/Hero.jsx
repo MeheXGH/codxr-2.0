@@ -1,111 +1,358 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Code2, Search, Sparkles } from "lucide-react";
 import { useEffect, useRef } from "react";
+import {
+  AppWindow,
+  ArrowUpRight,
+  BarChart3,
+  Code2,
+  Megaphone,
+  Palette,
+  Search,
+  ShoppingBag,
+} from "lucide-react";
 import gsap from "gsap";
 
+const floatingServices = [
+  {
+    id: "website",
+    title: "Website Development",
+    description: "Fast, secure & modern websites that perform.",
+    icon: Code2,
+    position: "website",
+  },
+  {
+    id: "social",
+    title: "Social Media Management",
+    description: "Consistent content & community growth.",
+    icon: Megaphone,
+    position: "social",
+  },
+  {
+    id: "web-app",
+    title: "Web Applications",
+    description: "Custom digital platforms built for your business.",
+    icon: AppWindow,
+    position: "web-app",
+  },
+  {
+    id: "meta-ads",
+    title: "Meta Ads",
+    description: "Performance-focused campaigns that deliver results.",
+    icon: BarChart3,
+    position: "meta-ads",
+  },
+  {
+    id: "seo",
+    title: "SEO & AI Search",
+    description: "Improve visibility across search and AI discovery.",
+    icon: Search,
+    position: "seo",
+  },
+  {
+    id: "ecommerce",
+    title: "E-commerce Development",
+    description: "Online stores designed to convert and scale.",
+    icon: ShoppingBag,
+    position: "ecommerce",
+  },
+  {
+    id: "branding",
+    title: "Branding & Design",
+    description: "Distinct identities that make businesses stand out.",
+    icon: Palette,
+    position: "branding",
+  },
+];
+
+function ServiceCard({ service }) {
+  const Icon = service.icon;
+
+  return (
+    <div
+      data-floating-card
+      className={`hero-card hero-card-${service.position}`}
+    >
+      <div className="hero-card-icon">
+        <Icon
+          size={19}
+          strokeWidth={2}
+          aria-hidden="true"
+        />
+      </div>
+
+      <div className="hero-card-content">
+        <h2 className="hero-card-title">
+          {service.title}
+        </h2>
+
+        <p className="hero-card-description">
+          {service.description}
+        </p>
+      </div>
+
+      <span
+        aria-hidden="true"
+        className="hero-card-dot"
+      />
+    </div>
+  );
+}
+
 export default function Hero() {
-  const contentRef = useRef(null);
+  const heroRef = useRef(null);
   const visualRef = useRef(null);
+  const imageCardRef = useRef(null);
 
   useEffect(() => {
     const context = gsap.context(() => {
+      /*
+       * Main content entrance
+       */
       gsap.from(".hero-reveal", {
-        y: 28,
+        y: 30,
         opacity: 0,
         duration: 0.8,
         stagger: 0.1,
         ease: "power3.out",
       });
 
-      gsap.fromTo(
-        visualRef.current,
-        { y: 12, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          delay: 0.2,
-          ease: "power3.out",
-        },
-      );
-    }, contentRef);
+      /*
+       * Main visual entrance
+       */
+      gsap.from(".hero-visual", {
+        scale: 0.96,
+        opacity: 0,
+        duration: 1,
+        delay: 0.2,
+        ease: "power3.out",
+      });
+
+      /*
+       * Floating cards entrance
+       */
+      gsap.from("[data-floating-card]", {
+        y: 20,
+        opacity: 0,
+        duration: 0.7,
+        delay: 0.4,
+        stagger: 0.08,
+        ease: "power3.out",
+      });
+
+      /*
+       * Coordinated floating animation.
+       *
+       * All cards use the same movement pattern and
+       * approximately the same speed. Small delays keep
+       * the movement organic without making the cards
+       * feel disconnected.
+       */
+      gsap.utils
+        .toArray("[data-floating-card]")
+        .forEach((card, index) => {
+          gsap.to(card, {
+            y: index % 2 === 0 ? -6 : 6,
+            duration: 6,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: index * 0.35,
+          });
+        });
+    }, heroRef);
 
     return () => context.revert();
   }, []);
 
+  /*
+   * ----------------------------------------------------------
+   * SUBTLE IMAGE TILT
+   * ----------------------------------------------------------
+   */
+
+  const handleImageMouseMove = (event) => {
+    const card = imageCardRef.current;
+
+    if (!card || window.innerWidth < 768) {
+      return;
+    }
+
+    const rect = card.getBoundingClientRect();
+
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateY =
+      ((x - centerX) / centerX) * 4;
+
+    const rotateX =
+      ((centerY - y) / centerY) * 4;
+
+    gsap.to(card, {
+      rotateX,
+      rotateY,
+      scale: 1.015,
+      duration: 0.45,
+      ease: "power2.out",
+      transformPerspective: 1000,
+      overwrite: true,
+    });
+  };
+
+  const handleImageMouseLeave = () => {
+    const card = imageCardRef.current;
+
+    if (!card) {
+      return;
+    }
+
+    gsap.to(card, {
+      rotateX: 0,
+      rotateY: 0,
+      scale: 1,
+      duration: 0.7,
+      ease: "power3.out",
+      overwrite: true,
+    });
+  };
+
   return (
     <section
-      ref={contentRef}
-      className="section-space overflow-hidden"
-      aria-labelledby="home-hero-title"
+      ref={heroRef}
+      className="hero-section"
+      aria-labelledby="hero-title"
     >
-      <div className="container-codxr grid min-h-[72vh] items-center gap-14 lg:grid-cols-[1.1fr_0.9fr]">
-        <div>
-          <p className="hero-reveal mb-5 text-xs font-bold uppercase tracking-[0.22em] text-[#6f9900] dark:text-codxr-green">
-            Digital studio · CODXR 2.0
-          </p>
+      <div className="container-codxr">
+        <div className="hero-grid">
+          {/* =====================================================
+              LEFT CONTENT
+          ====================================================== */}
 
-          <h1
-            id="home-hero-title"
-            className="hero-reveal max-w-5xl text-5xl font-black leading-[0.94] tracking-[-0.05em] md:text-7xl lg:text-[5.5rem]"
-          >
-            Building modern digital experiences that grow businesses.
-          </h1>
+          <div className="hero-content">
+            <div className="hero-reveal hero-badge">
+              <span
+                className="hero-badge-icon"
+                aria-hidden="true"
+              >
+                ⚡
+              </span>
 
-          <p className="hero-reveal mt-7 max-w-2xl text-lg leading-8 text-codxr-lightMuted dark:text-codxr-darkMuted">
-            We build high-quality websites, web applications, e-commerce
-            experiences, and digital growth systems for ambitious businesses.
-          </p>
+              <span>
+                Digital Solutions That Drive Real Growth
+              </span>
+            </div>
 
-          <div className="hero-reveal mt-9 flex flex-wrap gap-3">
-            <Link
-              href="/contact"
-              className="inline-flex items-center rounded-full bg-codxr-green px-6 py-3.5 font-semibold text-black transition hover:opacity-90"
+            <h1
+              id="hero-title"
+              className="hero-reveal hero-title"
             >
-              Start Your Project
-              <ArrowUpRight className="ml-2" size={18} />
-            </Link>
+              Building Modern
+              <br />
+              Digital Brands
+              <br />
+              That{" "}
+              <span className="hero-title-accent">
+                Grow.
+              </span>
+            </h1>
 
-            <Link
-              href="/work"
-              className="inline-flex items-center rounded-full border border-codxr-lightBorder px-6 py-3.5 font-semibold transition hover:border-codxr-green dark:border-codxr-darkBorder"
-            >
-              View Our Work
-            </Link>
-          </div>
-        </div>
+            <p className="hero-reveal hero-description">
+              We create powerful websites, build web
+              applications, optimize search visibility, and
+              develop digital experiences that help
+              businesses stand out and scale.
+            </p>
 
-        <div ref={visualRef} className="opacity-0">
-          <div className="placeholder-surface relative min-h-[430px] overflow-hidden rounded-[2rem] p-7">
-            <div className="absolute right-7 top-7 h-24 w-24 rounded-full bg-codxr-green/20 blur-2xl" />
-
-            <div className="relative flex h-full min-h-[370px] flex-col justify-between">
-              <div className="flex items-center justify-between">
-                <span className="rounded-full border border-codxr-lightBorder px-3 py-1.5 text-xs dark:border-codxr-darkBorder">
-                  CODXR / DIGITAL
+            <div className="hero-reveal hero-actions">
+              <Link
+                href="/contact"
+                className="hero-primary-button codxr-gradient"
+              >
+                <span>
+                  Start Your Project
                 </span>
 
-                <Sparkles size={18} aria-hidden="true" />
+                <ArrowUpRight
+                  size={18}
+                  aria-hidden="true"
+                />
+              </Link>
+
+              <Link
+                href="/work"
+                className="hero-secondary-button"
+              >
+                <span>
+                  View Portfolio
+                </span>
+
+                <ArrowUpRight
+                  size={18}
+                  aria-hidden="true"
+                />
+              </Link>
+            </div>
+          </div>
+
+          {/* =====================================================
+              RIGHT VISUAL
+          ====================================================== */}
+
+          <div
+            ref={visualRef}
+            className="hero-visual"
+            aria-label="CODXR digital services"
+          >
+            <div className="hero-visual-area">
+              {/* Light / Dark Hero Image */}
+              <div
+                ref={imageCardRef}
+                className="hero-image-card"
+                onMouseMove={handleImageMouseMove}
+                onMouseLeave={handleImageMouseLeave}
+              >
+                <Image
+                  src="/images/codxr-hero.png"
+                  alt="CODXR digital solutions and services"
+                  fill
+                  priority
+                  sizes="
+                    (max-width: 480px) 82vw,
+                    (max-width: 767px) 72vw,
+                    (max-width: 1024px) 58vw,
+                    48vw
+                  "
+                  className="hero-image hero-image-light"
+                />
+
+                <Image
+                  src="/images/codxr-hero-dark.png"
+                  alt="CODXR digital solutions and services"
+                  fill
+                  priority
+                  sizes="
+                    (max-width: 480px) 82vw,
+                    (max-width: 767px) 72vw,
+                    (max-width: 1024px) 58vw,
+                    48vw
+                  "
+                  className="hero-image hero-image-dark"
+                />
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl border border-codxr-lightBorder bg-codxr-light p-5 dark:border-codxr-darkBorder dark:bg-codxr-darkCard">
-                  <Code2 size={20} />
-                  <p className="mt-8 text-sm font-semibold">Build</p>
-                </div>
-
-                <div className="rounded-2xl border border-codxr-lightBorder bg-codxr-light p-5 dark:border-codxr-darkBorder dark:bg-codxr-darkCard">
-                  <Search size={20} />
-                  <p className="mt-8 text-sm font-semibold">Optimize</p>
-                </div>
-
-                <div className="rounded-2xl bg-codxr-green p-5 text-black">
-                  <ArrowUpRight size={20} />
-                  <p className="mt-8 text-sm font-semibold">Grow</p>
-                </div>
-              </div>
+              {/* Floating Service Cards */}
+              {floatingServices.map((service) => (
+                <ServiceCard
+                  key={service.id}
+                  service={service}
+                />
+              ))}
             </div>
           </div>
         </div>
